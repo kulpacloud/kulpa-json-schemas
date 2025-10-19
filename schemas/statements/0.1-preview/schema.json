@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.kulpa.io/statements/0.1-preview/schema.json",
+  "title": "Kulpa Statements",
+  "description": "Schema for defining statement forms with various field types",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URI for the JSON schema"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the statement"
+    },
+    "name": {
+      "type": "string",
+      "description": "Internal name of the statement form"
+    },
+    "title": {
+      "type": "string",
+      "description": "User-facing title of the statement"
+    },
+    "fields": {
+      "type": "array",
+      "description": "Array of form fields",
+      "items": {
+        "$ref": "#/$defs/field"
+      }
+    },
+    "textTemplate": {
+      "type": "string",
+      "description": "Markdown template with field references using {{field-ref}} syntax"
+    }
+  },
+  "required": ["id", "name", "fields", "textTemplate"],
+  "additionalProperties": false,
+  "$defs": {
+    "fieldUniqueIdentifier": {
+      "type": "string",
+      "pattern": "^[a-zA-Z][a-zA-Z0-9-]+$",
+      "minLength": 3,
+      "maxLength": 64,
+      "description": "Unique identifier for the field"
+    },
+    "field": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/fieldUniqueIdentifier"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "string",
+            "longform",
+            "emailAddress",
+            "phoneNumber",
+            "caseNumber",
+            "date",
+            "time",
+            "dateTime",
+            "select",
+            "group",
+            "text",
+            "boolean",
+            "number"
+          ],
+          "description": "Type of the field"
+        },
+        "label": {
+          "type": "string",
+          "description": "User-facing label for the field"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title for group fields"
+        },
+        "properties": {
+          "type": "object",
+          "description": "Additional properties specific to the field type",
+          "properties": {
+            "defaultValue": {
+              "type": "string",
+              "description": "Default value for the field"
+            },
+            "placeholder": {
+              "type": "string",
+              "description": "Placeholder text. This usually is an example of a value."
+            },
+            "helpText": {
+              "type": "string",
+              "description": "Instructions for the field. You can use this to give more context about the type of information being requested"
+            },
+            "required": {
+              "type": "boolean",
+              "description": "Whether the field is required",
+              "default": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "fields": {
+          "type": "array",
+          "description": "Nested fields for group type",
+          "items": {
+            "$ref": "#/$defs/field"
+          }
+        }
+      },
+      "required": ["id", "type", "properties"],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "number"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "properties": {
+                "properties": {
+                  "maximum": {
+                    "type": "number",
+                    "description": "Maximum value allowed. To be used on `number` type fields."
+                  },
+                  "minimum": {
+                    "type": "number",
+                    "description": "Minimum value allowed. To be used on `number` type fields."
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "group"
+              }
+            }
+          },
+          "then": {
+            "required": ["fields"]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "text"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "properties": {
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Text content for text-type fields"
+                  }
+                },
+                "required": ["text"]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "select"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "properties": {
+                "properties": {
+                  "options": {
+                    "type": "array",
+                    "description": "Options for select fields",
+                    "items": {
+                      "type": "object",
+                      "required": ["value", "title"],
+                      "properties": {
+                        "value": {
+                          "type": "string",
+                          "description": "Internal value of the option"
+                        },
+                        "title": {
+                          "type": "string",
+                          "description": "Display text for the option"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "multipleSelection": {
+                    "type": "boolean",
+                    "description": "Whether multiple selections are allowed"
+                  }
+                },
+                "required": ["options"]
+              }
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    }
+  }
+}
