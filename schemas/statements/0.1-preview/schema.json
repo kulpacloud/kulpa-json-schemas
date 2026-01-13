@@ -146,10 +146,12 @@
           "then": {
             "properties": {
               "properties": {
-                "maxLength": {
-                  "type": "number",
-                  "description": "Maximum length allowed for string fields. To be used on `string` type fields.",
-                  "maximum": 255
+                "properties": {
+                  "maxLength": {
+                    "type": "number",
+                    "description": "Maximum length allowed for string fields. To be used on `string` type fields.",
+                    "maximum": 255
+                  }
                 }
               }
             }
