@@ -1,0 +1,14 @@
+﻿{
+  "$schema": "../schema.json",
+  "id": "invalid-field-type",
+  "name": "Invalid Field Type",
+  "title": "Invalid Example",
+  "fields": [
+    {
+      "id": "unsupported",
+      "type": "unknown",
+      "properties": {}
+    }
+  ],
+  "textTemplate": "..."
+}

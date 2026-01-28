@@ -1,0 +1,83 @@
+﻿{
+  "$schema": "../schema.json",
+  "id": "full-features",
+  "name": "Full Features Demo",
+  "title": "Demonstration of all field types",
+  "fields": [
+    {
+      "id": "intro-text",
+      "type": "text",
+      "label": "Introduction",
+      "properties": {
+        "text": "Please fill out this form carefully."
+      }
+    },
+    {
+      "id": "age",
+      "type": "number",
+      "label": "Age",
+      "properties": {
+        "minimum": 0,
+        "maximum": 255,
+        "required": true
+      }
+    },
+    {
+      "id": "gender",
+      "type": "select",
+      "label": "Gender",
+      "properties": {
+        "options": [
+          { "value": "male", "title": "Male" },
+          { "value": "female", "title": "Female" },
+          { "value": "other", "title": "Other" }
+        ],
+        "required": true
+      }
+    },
+    {
+      "id": "personal-group",
+      "type": "group",
+      "label": "Personal Details",
+      "fields": [
+        {
+          "id": "phone",
+          "type": "phoneNumber",
+          "label": "Phone Number",
+          "properties": {
+            "required": false
+          }
+        },
+        {
+          "id": "is-active",
+          "type": "string",
+          "label": "Is Active?",
+          "properties": {
+            "defaultValue": "false"
+          }
+        }
+      ],
+      "properties": {
+        "required": true
+      }
+    },
+    {
+      "id": "appointment",
+      "type": "dateTime",
+      "label": "Appointment",
+      "properties": {
+        "required": false
+      }
+    },
+    {
+      "id": "bio",
+      "type": "longform",
+      "label": "Biography",
+      "properties": {
+        "required": false,
+        "placeholder": "Tell us about yourself"
+      }
+    }
+  ],
+  "textTemplate": "Statement for {{personal-group.phone}}. Age: {{age}}"
+}

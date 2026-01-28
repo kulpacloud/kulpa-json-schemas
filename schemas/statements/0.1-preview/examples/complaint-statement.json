@@ -1,0 +1,65 @@
+﻿{
+  "$schema": "../schema.json",
+  "id": "complaint-statement",
+  "name": "Complaint Statement",
+  "title": "Customer Complaint Form",
+  "fields": [
+    {
+      "id": "customer-name",
+      "type": "string",
+      "label": "Customer Name",
+      "properties": {
+        "required": true
+      }
+    },
+    {
+      "id": "order-id",
+      "type": "caseNumber",
+      "label": "Order Number",
+      "properties": {
+        "required": true,
+        "placeholder": "ORD-12345"
+      }
+    },
+    {
+      "id": "incident-date",
+      "type": "date",
+      "label": "Date of Incident",
+      "properties": {
+        "required": true
+      }
+    },
+    {
+      "id": "complaint-type",
+      "type": "select",
+      "label": "Complaint Category",
+      "properties": {
+        "options": [
+          { "value": "delivery", "title": "Delivery Issue" },
+          { "value": "product", "title": "Product Quality" },
+          { "value": "service", "title": "Customer Service" },
+          { "value": "other", "title": "Other" }
+        ],
+        "required": true
+      }
+    },
+    {
+      "id": "description",
+      "type": "longform",
+      "label": "Details of Complaint",
+      "properties": {
+        "required": true,
+        "placeholder": "Please describe what happened in detail..."
+      }
+    },
+    {
+      "id": "contact-back",
+      "type": "boolean",
+      "label": "Do you wish to be contacted?",
+      "properties": {
+        "defaultValue": "true"
+      }
+    }
+  ],
+  "textTemplate": "Complaint from {{customer-name}} regarding {{complaint-type}} for order {{order-id}}."
+}

@@ -5,33 +5,15 @@
   "description": "Schema for defining statement forms with various field types",
   "type": "object",
   "properties": {
-    "$schema": {
-      "type": "string",
-      "description": "URI for the JSON schema"
-    },
-    "id": {
-      "type": "string",
-      "description": "Unique identifier for the statement"
-    },
-    "name": {
-      "type": "string",
-      "description": "Internal name of the statement form"
-    },
-    "title": {
-      "type": "string",
-      "description": "User-facing title of the statement"
-    },
+    "$schema": { "type": "string" },
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "title": { "type": "string" },
     "fields": {
       "type": "array",
-      "description": "Array of form fields",
-      "items": {
-        "$ref": "#/$defs/field"
-      }
+      "items": { "$ref": "#/$defs/field" }
     },
-    "textTemplate": {
-      "type": "string",
-      "description": "Markdown template with field references using {{field-ref}} syntax"
-    }
+    "textTemplate": { "type": "string" }
   },
   "required": ["id", "name", "fields", "textTemplate"],
   "additionalProperties": false,
@@ -40,196 +22,165 @@
       "type": "string",
       "pattern": "^[a-zA-Z][a-zA-Z0-9-]+$",
       "minLength": 3,
-      "maxLength": 64,
-      "description": "Unique identifier for the field"
+      "maxLength": 64
     },
     "field": {
       "type": "object",
-      "properties": {
-        "id": {
-          "$ref": "#/$defs/fieldUniqueIdentifier"
-        },
-        "type": {
-          "type": "string",
-          "enum": [
-            "string",
-            "longform",
-            "emailAddress",
-            "phoneNumber",
-            "caseNumber",
-            "date",
-            "time",
-            "dateTime",
-            "select",
-            "group",
-            "text",
-            "boolean",
-            "number"
-          ],
-          "description": "Type of the field"
-        },
-        "label": {
-          "type": "string",
-          "description": "User-facing label for the field"
-        },
-        "title": {
-          "type": "string",
-          "description": "Title for group fields"
-        },
-        "properties": {
-          "type": "object",
-          "description": "Additional properties specific to the field type",
+      "oneOf": [
+        {
           "properties": {
-            "defaultValue": {
-              "type": "string",
-              "description": "Default value for the field"
-            },
-            "placeholder": {
-              "type": "string",
-              "description": "Placeholder text. This usually is an example of a value."
-            },
-            "helpText": {
-              "type": "string",
-              "description": "Instructions for the field. You can use this to give more context about the type of information being requested"
-            },
-            "required": {
-              "type": "boolean",
-              "description": "Whether the field is required",
-              "default": false
+            "id": { "$ref": "#/$defs/fieldUniqueIdentifier" },
+            "type": { "const": "number" },
+            "label": { "type": "string" },
+            "title": { "type": "string" },
+            "properties": {
+              "type": "object",
+              "properties": {
+                "defaultValue": { "type": "string" },
+                "placeholder": { "type": "string" },
+                "helpText": { "type": "string" },
+                "required": { "type": "boolean", "default": false },
+                "maximum": { "type": "number" },
+                "minimum": { "type": "number" }
+              },
+              "additionalProperties": false
             }
           },
+          "required": ["id", "type", "properties"],
           "additionalProperties": false
         },
-        "fields": {
-          "type": "array",
-          "description": "Nested fields for group type",
-          "items": {
-            "$ref": "#/$defs/field"
-          }
-        }
-      },
-      "required": ["id", "type", "properties"],
-      "allOf": [
         {
-          "if": {
+          "properties": {
+            "id": { "$ref": "#/$defs/fieldUniqueIdentifier" },
+            "type": { "const": "string" },
+            "label": { "type": "string" },
+            "title": { "type": "string" },
             "properties": {
-              "type": {
-                "const": "number"
-              }
+              "type": "object",
+              "properties": {
+                "defaultValue": { "type": "string" },
+                "placeholder": { "type": "string" },
+                "helpText": { "type": "string" },
+                "required": { "type": "boolean", "default": false },
+                "maxLength": { "type": "number", "maximum": 255 }
+              },
+              "additionalProperties": false
             }
           },
-          "then": {
+          "required": ["id", "type", "properties"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "id": { "$ref": "#/$defs/fieldUniqueIdentifier" },
+            "type": { "const": "text" },
+            "label": { "type": "string" },
+            "title": { "type": "string" },
             "properties": {
+              "type": "object",
               "properties": {
-                "properties": {
-                  "maximum": {
-                    "type": "number",
-                    "description": "Maximum value allowed. To be used on `number` type fields."
-                  },
-                  "minimum": {
-                    "type": "number",
-                    "description": "Minimum value allowed. To be used on `number` type fields."
+                "defaultValue": { "type": "string" },
+                "placeholder": { "type": "string" },
+                "helpText": { "type": "string" },
+                "required": { "type": "boolean", "default": false },
+                "text": { "type": "string" }
+              },
+              "required": ["text"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["id", "type", "properties"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "id": { "$ref": "#/$defs/fieldUniqueIdentifier" },
+            "type": { "const": "select" },
+            "label": { "type": "string" },
+            "title": { "type": "string" },
+            "properties": {
+              "type": "object",
+              "properties": {
+                "defaultValue": { "type": "string" },
+                "placeholder": { "type": "string" },
+                "helpText": { "type": "string" },
+                "required": { "type": "boolean", "default": false },
+                "options": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["value", "title"],
+                    "properties": {
+                      "value": { "type": "string" },
+                      "title": { "type": "string" }
+                    },
+                    "additionalProperties": false
                   }
                 }
-              }
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "string"
-              }
+              },
+              "required": ["options"],
+              "additionalProperties": false
             }
           },
-          "then": {
+          "required": ["id", "type", "properties"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "id": { "$ref": "#/$defs/fieldUniqueIdentifier" },
+            "type": { "const": "group" },
+            "label": { "type": "string" },
+            "title": { "type": "string" },
+            "fields": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/field" }
+            },
             "properties": {
+              "type": "object",
               "properties": {
-                "properties": {
-                  "maxLength": {
-                    "type": "number",
-                    "description": "Maximum length allowed for string fields. To be used on `string` type fields.",
-                    "maximum": 255
-                  }
-                }
-              }
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "group"
-              }
+                "defaultValue": { "type": "string" },
+                "placeholder": { "type": "string" },
+                "helpText": { "type": "string" },
+                "required": { "type": "boolean", "default": false }
+              },
+              "additionalProperties": false
             }
           },
-          "then": {
-            "required": ["fields"]
-          }
+          "required": ["id", "type", "properties", "fields"],
+          "additionalProperties": false
         },
         {
-          "if": {
+          "properties": {
+            "id": { "$ref": "#/$defs/fieldUniqueIdentifier" },
+            "type": {
+              "enum": [
+                "longform",
+                "emailAddress",
+                "phoneNumber",
+                "caseNumber",
+                "date",
+                "time",
+                "dateTime",
+                "boolean"
+              ]
+            },
+            "label": { "type": "string" },
+            "title": { "type": "string" },
             "properties": {
-              "type": {
-                "const": "text"
-              }
-            }
-          },
-          "then": {
-            "properties": {
+              "type": "object",
               "properties": {
-                "properties": {
-                  "text": {
-                    "type": "string",
-                    "description": "Text content for text-type fields"
-                  }
-                },
-                "required": ["text"]
-              }
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "select"
-              }
+                "defaultValue": { "type": "string" },
+                "placeholder": { "type": "string" },
+                "helpText": { "type": "string" },
+                "required": { "type": "boolean", "default": false }
+              },
+              "additionalProperties": false
             }
           },
-          "then": {
-            "properties": {
-              "properties": {
-                "properties": {
-                  "options": {
-                    "type": "array",
-                    "description": "Options for select fields",
-                    "items": {
-                      "type": "object",
-                      "required": ["value", "title"],
-                      "properties": {
-                        "value": {
-                          "type": "string",
-                          "description": "Internal value of the option"
-                        },
-                        "title": {
-                          "type": "string",
-                          "description": "Display text for the option"
-                        }
-                      },
-                      "additionalProperties": false
-                    }
-                  }
-                },
-                "required": ["options"]
-              }
-            }
-          }
+          "required": ["id", "type", "properties"],
+          "additionalProperties": false
         }
-      ],
-      "additionalProperties": false
+      ]
     }
   }
 }

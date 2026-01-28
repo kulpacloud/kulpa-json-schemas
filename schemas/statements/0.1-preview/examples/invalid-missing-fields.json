@@ -1,0 +1,7 @@
+﻿{
+  "$schema": "../schema.json",
+  "id": "invalid-missing-fields",
+  "name": "Invalid Missing Fields",
+  "title": "Invalid Example",
+  "textTemplate": "This should fail because 'fields' is missing."
+}

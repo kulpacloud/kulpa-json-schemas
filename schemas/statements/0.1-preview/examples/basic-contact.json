@@ -1,0 +1,37 @@
+﻿{
+  "$schema": "../schema.json",
+  "id": "basic-contact",
+  "name": "Basic Contact",
+  "title": "Contact Information",
+  "fields": [
+    {
+      "id": "firstName",
+      "type": "string",
+      "label": "First Name",
+      "properties": {
+        "placeholder": "Enter your first name",
+        "maxLength": 30,
+        "required": true
+      }
+    },
+    {
+      "id": "lastName",
+      "type": "string",
+      "label": "Last Name",
+      "properties": {
+        "placeholder": "Enter your last name",
+        "required": true
+      }
+    },
+    {
+      "id": "email",
+      "type": "emailAddress",
+      "label": "Email Address",
+      "properties": {
+        "placeholder": "example@domain.com",
+        "required": true
+      }
+    }
+  ],
+  "textTemplate": "Contact: {{firstName}} {{lastName}} ({{email}})"
+}
