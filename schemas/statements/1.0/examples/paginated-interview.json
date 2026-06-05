@@ -1,0 +1,62 @@
+{
+  "$schema": "https://schemas.kulpa.io/statements/1.0/schema.json",
+  "id": "paginated_interview",
+  "name": "Paginated Interview",
+  "title": "Multi-page interview demonstrating the page type",
+  "fields": [
+    {
+      "id": "page_intro",
+      "type": "page",
+      "title": "Before you begin",
+      "fields": [
+        {
+          "id": "advisory",
+          "type": "text",
+          "properties": {
+            "content": "Please complete this interview alone, without assistance.",
+            "level": "warning"
+          }
+        },
+        {
+          "id": "full_name",
+          "type": "string",
+          "label": "Your full name",
+          "properties": {
+            "required": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "page_account",
+      "type": "page",
+      "title": "What happened",
+      "fields": [
+        {
+          "id": "narrative",
+          "type": "longform",
+          "label": "In your own words, what happened?",
+          "properties": {
+            "required": true
+          }
+        },
+        {
+          "id": "contact",
+          "type": "group",
+          "title": "How can we reach you?",
+          "fields": [
+            {
+              "id": "phone",
+              "type": "phoneNumber",
+              "label": "Phone",
+              "properties": {
+                "required": false
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "textTemplate": "Statement by {{full_name}}: {{narrative}} (contact: {{contact.phone}})"
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schemas.kulpa.io/statements/1.0/schema.json",
+  "id": "invalid-field-type",
+  "name": "Invalid Field Type",
+  "title": "Invalid Example",
+  "fields": [
+    {
+      "id": "page_one",
+      "type": "page",
+      "title": "Page",
+      "fields": [
+        {
+          "id": "unsupported",
+          "type": "unknown",
+          "properties": {}
+        }
+      ]
+    }
+  ],
+  "textTemplate": "..."
+}

@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.kulpa.io/statements/1.0/schema.json",
+  "title": "Kulpa Statements",
+  "description": "Schema for defining statement forms with various field types",
+  "type": "object",
+  "properties": {
+    "$schema": { 
+      "type": "string",
+      "const": "https://schemas.kulpa.io/statements/1.0/schema.json"
+     },
+    "id": {
+      "type": "string",
+      "description": "Stable machine identifier for the template (slug). Not shown to end users."
+    },
+    "name": {
+      "type": "string",
+      "description": "The owning organisation's name for this template, used when the organisation manages its own templates. Human-readable; the organisation chooses the convention (a descriptive name, a reference code, or a mix). Not shown to the person completing the form."
+    },
+    "title": {
+      "type": "string",
+      "description": "The public-facing heading shown to the person completing the form (e.g. 'Witness Statement'). Required."
+    },
+    "fields": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/pageField" }
+    },
+    "textTemplate": { "type": "string" }
+  },
+  "required": ["$schema", "id", "name", "title", "fields", "textTemplate"],
+  "additionalProperties": false,
+  "$defs": {
+    "fieldUniqueIdentifier": {
+      "type": "string",
+      "pattern": "^[a-zA-Z][a-zA-Z0-9_]+$",
+      "minLength": 2,
+      "maxLength": 64
+    },
+    "field": {
+      "type": "object",
+      "oneOf": [
+        {
+          "properties": {
+            "id": { "$ref": "#/$defs/fieldUniqueIdentifier" },
+            "type": { "const": "number" },
+            "label": { "type": "string" },
+            "properties": {
+              "type": "object",
+              "properties": {
+                "defaultValue": { "type": "number" },
+                "placeholder": { "type": "string" },
+                "helpText": { "type": "string" },
+                "required": { "type": "boolean", "default": false },
+                "maximum": { "type": "number" },
+                "minimum": { "type": "number" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "required": ["id", "type"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "id": { "$ref": "#/$defs/fieldUniqueIdentifier" },
+            "type": { "const": "string" },
+            "label": { "type": "string" },
+            "properties": {
+              "type": "object",
+              "properties": {
+                "defaultValue": { "type": "string" },
+                "placeholder": { "type": "string" },
+                "helpText": { "type": "string" },
+                "required": { "type": "boolean", "default": false },
+                "maxLength": { "type": "number", "maximum": 255 }
+              },
+              "additionalProperties": false
+            }
+          },
+          "required": ["id", "type"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "id": { "$ref": "#/$defs/fieldUniqueIdentifier" },
+            "type": { "const": "text" },
+            "title": { "type": "string" },
+            "properties": {
+              "type": "object",
+              "properties": {
+                "content": { "type": "string" },
+                "level": { "type": "string", "enum": ["info", "note", "important", "warning"], "default": "info" }
+              },
+              "required": ["content"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["id", "type", "properties"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "id": { "$ref": "#/$defs/fieldUniqueIdentifier" },
+            "type": { "const": "select" },
+            "label": { "type": "string" },
+            "properties": {
+              "type": "object",
+              "properties": {
+                "defaultValue": { "type": "string" },
+                "placeholder": { "type": "string" },
+                "helpText": { "type": "string" },
+                "required": { "type": "boolean", "default": false },
+                "options": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "required": ["value", "title"],
+                    "properties": {
+                      "value": { "type": "string" },
+                      "title": { "type": "string" }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "multipleSelection": { "type": "boolean", "default": false }
+              },
+              "required": ["options"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["id", "type", "properties"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "id": { "$ref": "#/$defs/fieldUniqueIdentifier" },
+            "type": { "const": "group" },
+            "title": { "type": "string" },
+            "fields": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "$ref": "#/$defs/field" }
+            },
+            "properties": {
+              "type": "object",
+              "properties": {
+                "defaultValue": { "type": "string" },
+                "placeholder": { "type": "string" },
+                "helpText": { "type": "string" },
+                "required": { "type": "boolean", "default": false }
+              },
+              "additionalProperties": false
+            }
+          },
+          "required": ["id", "type", "fields"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "id": { "$ref": "#/$defs/fieldUniqueIdentifier" },
+            "type": { "const": "boolean" },
+            "label": { "type": "string" },
+            "properties": {
+              "type": "object",
+              "properties": {
+                "defaultValue": { "type": "boolean" },
+                "placeholder": { "type": "string" },
+                "helpText": { "type": "string" },
+                "required": { "type": "boolean", "default": false }
+              },
+              "additionalProperties": false
+            }
+          },
+          "required": ["id", "type"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "id": { "$ref": "#/$defs/fieldUniqueIdentifier" },
+            "type": {
+              "enum": [
+                "longform",
+                "emailAddress",
+                "phoneNumber",
+                "caseNumber",
+                "date",
+                "time",
+                "dateTime"
+              ]
+            },
+            "label": { "type": "string" },
+            "properties": {
+              "type": "object",
+              "properties": {
+                "defaultValue": { "type": "string" },
+                "placeholder": { "type": "string" },
+                "helpText": { "type": "string" },
+                "required": { "type": "boolean", "default": false }
+              },
+              "additionalProperties": false
+            }
+          },
+          "required": ["id", "type"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "pageField": {
+      "type": "object",
+      "properties": {
+        "id": { "$ref": "#/$defs/fieldUniqueIdentifier" },
+        "type": { "const": "page" },
+        "title": { "type": "string" },
+        "fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/field" }
+        }
+      },
+      "required": ["id", "type", "fields"],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "$schema": "https://schemas.kulpa.io/statements/1.0/schema.json",
+  "id": "full-features",
+  "name": "Full Features Demo",
+  "title": "Demonstration of all field types",
+  "fields": [
+    {
+      "id": "page_all",
+      "type": "page",
+      "title": "All fields",
+      "fields": [
+        {
+          "id": "introText",
+          "type": "text",
+          "title": "Introduction",
+          "properties": {
+            "content": "We need your reponses."
+          }
+        },
+        {
+          "id": "advisory",
+          "type": "text",
+          "title": "Please, be advised",
+          "properties": {
+            "content": "Please fill out this form carefully.",
+            "level": "warning"
+          }
+        },
+        {
+          "id": "age",
+          "type": "number",
+          "label": "Age",
+          "properties": {
+            "minimum": 0,
+            "maximum": 255,
+            "required": true
+          }
+        },
+        {
+          "id": "gender",
+          "type": "select",
+          "label": "Gender",
+          "properties": {
+            "options": [
+              {
+                "value": "male",
+                "title": "Male"
+              },
+              {
+                "value": "female",
+                "title": "Female"
+              },
+              {
+                "value": "other",
+                "title": "Other"
+              }
+            ],
+            "required": true
+          }
+        },
+        {
+          "id": "personal_group",
+          "type": "group",
+          "title": "Personal Details",
+          "fields": [
+            {
+              "id": "phone",
+              "type": "phoneNumber",
+              "label": "Phone Number",
+              "properties": {
+                "required": false
+              }
+            },
+            {
+              "id": "is_active",
+              "type": "string",
+              "label": "Is Active?",
+              "properties": {
+                "defaultValue": "false"
+              }
+            },
+            {
+              "id": "hobbies",
+              "type": "select",
+              "label": "What instruments to you play?",
+              "properties": {
+                "options": [
+                  {
+                    "title": "Guitar",
+                    "value": "guitar"
+                  },
+                  {
+                    "title": "Piano",
+                    "value": "piano"
+                  },
+                  {
+                    "title": "Violin",
+                    "value": "violin"
+                  },
+                  {
+                    "title": "Clarinet",
+                    "value": "clarinet"
+                  }
+                ],
+                "multipleSelection": true
+              }
+            }
+          ],
+          "properties": {
+            "required": true
+          }
+        },
+        {
+          "id": "appointment",
+          "type": "dateTime",
+          "label": "Appointment",
+          "properties": {
+            "required": false
+          }
+        },
+        {
+          "id": "bio",
+          "type": "longform",
+          "label": "Biography",
+          "properties": {
+            "required": false,
+            "placeholder": "Tell us about yourself"
+          }
+        }
+      ]
+    }
+  ],
+  "textTemplate": "Statement for {{personal_group.phone}}. Age: {{age}}"
+}
