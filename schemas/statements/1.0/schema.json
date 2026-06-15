@@ -48,7 +48,6 @@
             "properties": {
               "type": "object",
               "properties": {
-                "defaultValue": { "type": "number" },
                 "placeholder": { "type": "string" },
                 "helpText": { "type": "string" },
                 "required": { "type": "boolean", "default": false },
@@ -69,7 +68,6 @@
             "properties": {
               "type": "object",
               "properties": {
-                "defaultValue": { "type": "string" },
                 "placeholder": { "type": "string" },
                 "helpText": { "type": "string" },
                 "required": { "type": "boolean", "default": false },
@@ -107,7 +105,6 @@
             "properties": {
               "type": "object",
               "properties": {
-                "defaultValue": { "type": "string" },
                 "placeholder": { "type": "string" },
                 "helpText": { "type": "string" },
                 "required": { "type": "boolean", "default": false },
@@ -146,7 +143,6 @@
             "properties": {
               "type": "object",
               "properties": {
-                "defaultValue": { "type": "string" },
                 "placeholder": { "type": "string" },
                 "helpText": { "type": "string" },
                 "required": { "type": "boolean", "default": false }
@@ -165,7 +161,6 @@
             "properties": {
               "type": "object",
               "properties": {
-                "defaultValue": { "type": "boolean" },
                 "placeholder": { "type": "string" },
                 "helpText": { "type": "string" },
                 "required": { "type": "boolean", "default": false }
@@ -194,7 +189,6 @@
             "properties": {
               "type": "object",
               "properties": {
-                "defaultValue": { "type": "string" },
                 "placeholder": { "type": "string" },
                 "helpText": { "type": "string" },
                 "required": { "type": "boolean", "default": false }

@@ -72,10 +72,7 @@
         {
           "id": "contact_back",
           "type": "boolean",
-          "label": "Do you wish to be contacted?",
-          "properties": {
-            "defaultValue": true
-          }
+          "label": "Do you wish to be contacted?"
         }
       ]
     }

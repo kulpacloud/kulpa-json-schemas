@@ -74,10 +74,7 @@
             {
               "id": "is_active",
               "type": "string",
-              "label": "Is Active?",
-              "properties": {
-                "defaultValue": "false"
-              }
+              "label": "Is Active?"
             },
             {
               "id": "hobbies",
