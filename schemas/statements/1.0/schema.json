@@ -11,7 +11,7 @@
      },
     "id": {
       "type": "string",
-      "description": "Stable machine identifier for the template (slug). Not shown to end users."
+      "description": "The template's identifier: a UUID the server assigns when the template is created, replacing any value supplied. Organisations name their templates with `name`."
     },
     "name": {
       "type": "string",
